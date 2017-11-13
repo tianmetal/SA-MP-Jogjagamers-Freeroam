@@ -61,7 +61,13 @@ public OnGameModeInit()
 
 public OnPlayerText(playerid, text[])
 {
- 	return 1;
+	if(ChatFlood[playerid] < 2)
+	{
+		ChatFlood[playerid]++;
+		return 1;
+	}
+	else SEM(playerid,"SERVER: Chat flood protection!");
+ 	return 0;
 }
 
 public OnGameModeExit()
