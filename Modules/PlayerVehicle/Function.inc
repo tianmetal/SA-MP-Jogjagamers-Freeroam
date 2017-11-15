@@ -1,7 +1,11 @@
 stock CreatePlayerVehicle(playerid,model)
 {
 	if(model > 611 || model < 400) return 0;
-	if(Iter_Count(PlayerVehicles<playerid>) >= MAX_VEHICLES_PER_PLAYER) return 0;
+	if(Iter_Count(PlayerVehicles<playerid>) >= MAX_VEHICLES_PER_PLAYER)
+	{
+		new rv = Iter_Random(PlayerVehicles<playerid>);
+		DeletePlayerVehicle(rv);
+	}
 	new Float:cPos[4],vehid;
 	GetPlayerPos(playerid,cPos[0],cPos[1],cPos[2]);
 	GetPlayerFacingAngle(playerid,cPos[3]);

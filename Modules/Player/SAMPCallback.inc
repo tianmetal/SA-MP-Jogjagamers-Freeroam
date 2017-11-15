@@ -13,6 +13,7 @@ hook OnPlayerDisconnect(playerid, reason)
 	PlayerLogged[playerid] = false;
 	JumpMode[playerid] = false;
 	GodMode[playerid] = false;
+	ChatFlood[playerid] = 0;
 	RaceCheck[playerid]++;
 	return 1;
 }

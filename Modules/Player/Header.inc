@@ -18,3 +18,4 @@ new bool:PlayerLogged[MAX_PLAYERS] = { false , ... };
 new bool:GodMode[MAX_PLAYERS] = { false , ... };
 new bool:JumpMode[MAX_PLAYERS] = { false , ... };
 new bool:NoTele[MAX_PLAYERS] = { false , ... };
+new ChatFlood[MAX_PLAYERS];

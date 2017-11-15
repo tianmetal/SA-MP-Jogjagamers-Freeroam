@@ -103,12 +103,46 @@ CMD:lock(playerid,params[])
 		if(Iter_Contains(PlayerVehicles<playerid>,vehid))
 		{
 			new engine, lights, alarm, doors, bonnet, boot, objective;
-			GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
-			SetVehicleParamsEx(vehicleid, engine, lights, alarm, ((doors == 1) ? (0) : (1), bonnet, boot, objective);
+			GetVehicleParamsEx(vehid, engine, lights, alarm, doors, bonnet, boot, objective);
+			SetVehicleParamsEx(vehid, engine, lights, alarm, ((doors == 1) ? (0) : (1)), bonnet, boot, objective);
 			if(doors == 1) SendClientMessage(playerid,X11_LIGHTBLUE,"VEHICLE: "WHITE"Vehicle "GREEN"unlocked");
 			else SendClientMessage(playerid,X11_LIGHTBLUE,"VEHICLE: "WHITE"Vehicle "RED"locked");
 		}
 		else SEM(playerid,"ERROR: Can only lock your own vehicles!");
+	}
+	return 1;
+}
+CMD:tow(playerid,params[])
+{
+	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+	{
+		new vehid = GetPlayerVehicleID(playerid);
+		if(IsTrailerAttachedToVehicle(vehid))
+		{
+			DetachTrailerFromVehicle(vehid);
+			SendClientMessage(playerid,X11_LIGHTBLUE,"VEHICLE: "WHITE"Trailer "RED"detached");
+		}
+		else
+		{
+			new Float:cPos[3],
+				target = INVALID_VEHICLE_ID;
+			foreach(new v : PlayerVehicles<playerid>)
+			{
+				if(v == vehid) continue;
+				GetVehiclePos(v,cPos[0],cPos[1],cPos[2]);
+				if(IsPlayerInRangeOfPoint(playerid,10.0,cPos[0],cPos[1],cPos[2]))
+				{
+					target = v;
+					break;
+				}
+			}
+			if(target != INVALID_VEHICLE_ID)
+			{
+				AttachTrailerToVehicle(target,vehid);
+				SendClientMessage(playerid,X11_LIGHTBLUE,"VEHICLE: "WHITE"Trailer "GREEN"attached");
+			}
+			else SEM(playerid,"ERROR: No nearby vehicle found!");
+		}
 	}
 	return 1;
 }

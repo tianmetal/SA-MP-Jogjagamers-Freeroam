@@ -5,7 +5,7 @@
 
 #define SERVER_NAME			"Jogjagamers Freeroam"
 #define SERVER_NAME_SHORT   "JG:FR"
-#define MODE_VERSION 		"2.0 Revolution!"
+#define MODE_VERSION 		"2.0.1 Revolution!"
 
 #define FOREACH_NO_LOCALS
 #define YSI_NO_PLUGIN
@@ -61,9 +61,13 @@ public OnGameModeInit()
 
 public OnPlayerText(playerid, text[])
 {
-	if(ChatFlood[playerid] < 2)
+	if(ChatFlood[playerid] < 5)
 	{
 		ChatFlood[playerid]++;
+		if(ChatFlood[playerid] == 5)
+		{
+			defer EnableChat(playerid);
+		}
 		return 1;
 	}
 	else SEM(playerid,"SERVER: Chat flood protection!");
@@ -132,7 +136,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 CMD:help(playerid,params[])
 {
 	SendClientMessage(playerid,X11_LIGHTBLUE,"**HELP** "WHITE"/help /weap /godmode /skin /killme /mycolor /jumpmode /jetpack /notele");
-	SendClientMessage(playerid,X11_LIGHTBLUE,"**VEHICLE** "WHITE"/veh /mv /vehgodmode /vcolor /fix /boostmode /flip /lock");
+	SendClientMessage(playerid,X11_LIGHTBLUE,"**VEHICLE** "WHITE"/veh /mv /vehgodmode /vcolor /fix /boostmode /flip /lock /tow");
 	SendClientMessage(playerid,X11_LIGHTBLUE,"**TELEPORT** "WHITE"/goto /gotols /gotosf /gotolv /drift[1-2] /tune[1-3]");
 	SendClientMessage(playerid,X11_LIGHTBLUE,"**WORLD** "WHITE"/myworld /public /invite");
 	return 1;
